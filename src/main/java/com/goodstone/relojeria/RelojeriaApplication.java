@@ -24,36 +24,36 @@ public class RelojeriaApplication {
 
 				// Creamos las categorias base.
 				Categoria deportivos = categoriaService.guardar(
-						new Categoria(null, "Deportivos", "Relojes resistentes y funcionales para el deporte y la aventura"));
+						new Categoria(null, "Deportivos", "Relojes resistentes para el deporte y la aventura"));
 				Categoria luxury = categoriaService.guardar(
-						new Categoria(null, "Luxury", "Relojes de alta gama con diseño sofisticado y materiales premium"));
+						new Categoria(null, "Luxury", "Relojes de alta gama diseñados con materiales premium"));
 
 				// Relojes Deportivos.
 				productoService.guardar(new Producto(null, "Canyon Trail", 179995.00, 10,
-						"URL_CANYON_TRAIL",
+						"https://i.postimg.cc/FFbjWR1F/reloj-hombre1.png",
 						deportivos));
 				productoService.guardar(new Producto(null, "Midnight Explorer", 159995.00, 8,
-						"URL_MIDNIGHT_EXPLORER",
+						"https://i.postimg.cc/K8jB8Df4/reloj-hombre2.png",
 						deportivos));
 				productoService.guardar(new Producto(null, "Adventure Matic", 149995.00, 15,
-						"URL_ADVENTURE_MATIC",
+						"https://i.postimg.cc/FKJSjF24/reloj-hombre6.png",
 						deportivos));
 				productoService.guardar(new Producto(null, "Forest Ranger", 189995.00, 5,
-						"URL_FOREST_RANGER",
+						"https://i.postimg.cc/VvzbQq5f/reloj-hombre7.png",
 						deportivos));
 
 				// Relojes Luxury.
 				productoService.guardar(new Producto(null, "Minimal Blue", 179000.00, 6,
-						"URL_MINIMAL_BLUE",
+						"https://i.postimg.cc/v85vJh2s/reloj-dama1.png",
 						luxury));
 				productoService.guardar(new Producto(null, "Timeless Tech", 169995.00, 9,
-						"URL_TIMELESS_TECH",
+						 "https://i.postimg.cc/XvTwhBwq/reloj-dama2.png",
 						luxury));
 				productoService.guardar(new Producto(null, "Daily Driver", 169995.00, 12,
-						"URL_DAILY_DRIVER",
+						"https://i.postimg.cc/3xfjXcNg/reloj-dama5.png",
 						luxury));
 				productoService.guardar(new Producto(null, "Mechanic MD4", 169800.00, 7,
-						"URL_MECHANIC_MD4",
+						"https://i.postimg.cc/K8jB8Df4/reloj-hombre8.png",
 						luxury));
 			}
 		};
