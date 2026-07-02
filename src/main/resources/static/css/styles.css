@@ -1,0 +1,648 @@
+/*fuente principal*/
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+/*reseteo de valores par defecto*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/**********Inicio del Index**********/
+
+html {
+    scroll-behavior: smooth;
+    /*suaviza el scroll*/
+}
+
+body {
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    font-weight: 400;
+    background-color: #323941;
+}
+
+.info-bar {
+    top: 0;
+    background-color: #3E4C59;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-style: oblique;
+    position: fixed;
+    width: 100%;
+    height: 30px;
+    z-index: 1000;
+    /*z-index muy alto para asegurar que esté por encima de otros elementos */
+}
+
+/* Estilos para la barra de navegacion */
+nav {
+    top: 30px;
+    position: fixed;
+    display: flex;
+    width: 100%;
+    height: 96px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    background-color: #282f445f;
+    backdrop-filter: blur(10px);
+    font-size: 1.2rem;
+    color: #ffffff;
+    box-shadow: 0px 0px 10px #00000067;
+    z-index: 999;
+    /* Mayor valor de z-index para asegurar que esté sobre el fondo */
+
+}
+
+nav ul {
+    display: flex;
+    /*se ubica en línea la lista*/
+    padding: 100px;
+}
+
+nav ul li {
+    list-style: none;
+    /*se eliminan las viñetas de los elementos de la lista*/
+    margin: 0 25px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    /*se elimina el subrayado a los elementos*/
+    color: #ffffff;
+}
+
+nav ul li a:hover {
+    color: #39f2ae;
+}
+
+/*queries para pantallas pequeñas*/
+@media only screen and (max-width: 768px) {
+    .logoContainer {
+        img {
+            display: none
+        }
+    }
+
+    .menuBtn {
+        position: absolute;
+        left: 20px;
+        top: 10px;
+        background: #323941;
+        color: #39f2ae;
+        height: 45px;
+        width: 45px;
+        z-index: 9999;
+        border: 1px solid #39f2ae;
+        border-radius: 5px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+    }
+
+    #btn:checked~.menuBtn {
+        left: 247px;
+    }
+
+    .menuBtn i {
+        position: absolute;
+        font-size: 1.2rem;
+        transition: all 0.3s ease;
+    }
+
+    .menuBtn i.fa-times {
+        opacity: 0;
+    }
+
+    #btn:checked~.menuBtn i.fa-times {
+        opacity: 1;
+        transform: rotate(-180deg);
+    }
+
+    #btn:checked~.menuBtn i.fa-bars {
+        opacity: 0;
+        transform: rotate(180deg);
+    }
+
+    .menuLateral {
+        position: absolute;
+        height: 100vh;
+        /*ocupo todo el view height*/
+        width: 270px;
+        left: -270px;
+        transition: all 0.3s ease;
+
+
+    }
+
+    #btn:checked~.menuLateral {
+        left: 0;
+    }
+
+    .menuLateral .listaItems {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+    }
+
+    .menuLateral .listaItems li {
+        line-height: 50px;
+        padding: 5px;
+        width: 100%;
+        border-top: 1px solid #b1b5c0;
+        border-bottom: 1px solid #b1b5c0;
+        transition: all 0.3s ease;
+    }
+
+    .listaItems li:hover {
+        border-top: 1px solid transparent;
+        border-bottom: 1px solid transparent;
+        box-shadow: 0 0px 10px 3px #39f2ae;
+    }
+
+    .listaItems li:nth-child(n) {
+        border-top: none;
+    }
+
+    .listaItems li:last-child {
+        border-bottom: 1px solid #b1b5c0;
+    }
+
+    .listaItems a {
+        color: #f2f2f2;
+        text-decoration: none;
+        text-align: center;
+        font-size: 1.2rem;
+        display: block;
+
+    }
+
+    .listaItems a:hover {
+        color: #39f2ae
+    }
+
+
+}
+
+/*media queries para pantallas medianas*/
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+    nav {
+        padding: 1rem 0;
+        /* Ajusta el espaciado interior */
+    }
+
+    nav ul li {
+        margin: 0.5rem 0.8rem;
+        /* Ajusta el espaciado entre elementos de la lista */
+    }
+
+}
+
+
+
+.all-products {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  row-gap: 48px;
+}
+
+.product {
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 24px;
+  overflow: hidden;
+  color: #39f2ae;
+  border-radius: 10px 32px;
+  border: 2px solid #39f2ae;
+  position: relative;
+  /* me sirve para poder posicionar el ícono del fav*/
+}
+
+/*corazoncito de favorito*/
+.fa-heart {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.fa-heart:hover {
+  scale: 1.2;
+}
+
+.product-title {
+  font-size: 1.2rem;
+  padding-bottom: 16px;
+}
+
+.product-off {
+  font-style: oblique;
+  color: #ffffff;
+  background-color: #39f2ae62;
+  box-shadow: 1px 1px 5px #39f2ae;
+  padding: 3px;
+}
+
+.product-shipping {
+  font-style: oblique;
+  color: #b1b5c0;
+  padding-top: 16px;
+}
+
+.product img {
+  width: 180px;
+  margin: 10px;
+  transition: ease 0.3s;
+}
+
+.product:hover img {
+  scale: 1.2;
+}
+
+.product-btn {
+  display: inline-block;
+  border: 2px solid #39f2ae;
+  background-color: #323941;
+  padding: 10px 20px;
+  border-radius: 10px 32px;
+  margin-top: 16px;
+  font-size: 1rem;
+}
+
+.product-btn a {
+  text-decoration: none;
+  color: #ffff;
+}
+
+.product-btn:hover {
+  box-shadow: 0 0 0px 1px #39f2ae,
+    0 0 10px 2px #39f2ae,
+    inset 0 0 0px 1px #39f2ae,
+    inset 0 0 15px 2px #39f2ae;
+}
+
+/**Estilos sección servicios**/
+.servicios {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    background-color: #b1b5c0;
+    padding: 32px;
+    margin-top: 40px;
+}
+
+.servicios {
+    i {
+        padding: 28px;
+        color: #39f2ae;
+        filter: drop-shadow(1px 1px 3px black)
+    }
+}
+
+.columna-izq,
+.columna-medio {
+    border-right: 2px solid rgba(0, 0, 0, 0.448);
+}
+
+.columna-izq,
+.columna-medio,
+.columna-der {
+    text-align: center;
+}
+
+/*media queries seccion servicios*/
+@media screen and (max-width:768px) {
+    .servicios {
+        grid-template: repeat(3, auto) / 1fr;
+        grid-template-areas: "columna-izq"
+            "columna-medio"
+            "columna-der";
+    }
+
+    .columna-izq,
+    .columna-medio {
+        border-right: none;
+        border-bottom: 2px solid rgba(0, 0, 0, 0.448);
+    }
+
+}
+
+/*Estilos para el footer*/
+.footer-container {
+    display: grid;
+    grid-template: 160px 160px 64px /1fr 1fr 1fr;
+    grid-template-areas: "arriba-izq arriba-medio arriba-der"
+        "centro-izq centro-medio centro-der"
+        "abajo abajo abajo";
+    width: 100%;
+    gap: 20px;
+    background-color: #2f4858;
+    color: #b1b5c0
+}
+
+.arriba-izq {
+    grid-area: arriba-izq;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 32px;
+}
+
+.arriba-izq ul {
+    display: flex;
+    list-style: none;
+}
+
+.arriba-izq ul li {
+    padding: 13px;
+}
+
+.arriba-der {
+    grid-area: arriba-der;
+    padding-top: 32px;
+    align-items: center;
+}
+
+.newsletter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+}
+
+.newsletter i {
+    margin-right: 16px;
+}
+
+.fa-envelope {
+    color: #39f2ae
+}
+
+.email-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.email-input {
+    padding: 8px;
+    font-size: 1rem;
+    outline: none;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 200px;
+    background-color: #30353c;
+    color: #ffff;
+}
+
+.btnEmail {
+    background-color: #39f2ae91;
+    color: #ffffff;
+    font-size: 1rem;
+    padding: 8px 8px;
+    border: 1px solid #39f2ae;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.btnEmail:hover {
+    background-color: transparent;
+    box-shadow: 0 0 0px 1px #39f2ae,
+        0 0 10px 2px #39f2ae,
+        inset 0 0 0px 1px #39f2ae,
+        inset 0 0 10px 2px #39f2ae;
+
+}
+
+.list-title {
+    text-align: center;
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 16px;
+    color: #39f2ae;
+}
+
+.centro-izq {
+    grid-area: centro-izq;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.centro-izq {
+    ul {
+        list-style: none;
+        text-align: left;
+    }
+}
+
+.centro-izq {
+    li {
+        padding-bottom: 10px;
+    }
+}
+
+.centro-medio {
+    grid-area: centro-medio;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: left;
+}
+
+.centro-medio address p {
+    padding-bottom: 10px;
+}
+
+.centro-der {
+    grid-area: centro-der;
+}
+
+.centro-der ul {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.centro-der li {
+    list-style: none;
+}
+
+.centro-der img {
+    width: 78px;
+    height: auto;
+    padding: 1rem;
+}
+
+.fa-brands {
+    color: #39f2ae;
+    cursor: pointer;
+}
+
+.fa-brands:hover {
+    color: #a0a4a8;
+}
+
+.abajo {
+    grid-area: abajo;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #3E4C59;
+    border-top: 1px solid #39f2ae;
+}
+
+.abajo-content {
+    color: #a0a4a8;
+}
+
+.fa-whatsapp {
+    color: rgb(23, 182, 23);
+    font-size: 3rem;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1001;
+}
+
+/*animación para el ícono de whatsapp*/
+.pulso {
+    animation-name: pulso;
+    animation-iteration-count: infinite;
+    animation-duration: .8s
+}
+
+@keyframes pulso {
+
+    35%,
+    65% {
+        transform: scale(1.2)
+    }
+}
+
+/*botón de volver hacia arriba*/
+.back_to_top {
+    color: #a0a4a86a;
+    font-size: 3rem;
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 1001;
+}
+
+.back_to_top:hover {
+    color: #39f2ae;
+}
+
+/**Media Queries para el footer**/
+@media (max-width: 768px) {
+
+    /*Reestructuro todo en una sola columna y 7 filas que se ajustan en auto*/
+    .footer-container {
+        grid-template: repeat(7, auto) / 1fr;
+        grid-template-areas:
+            "arriba-izq"
+            "arriba-medio"
+            "arriba-der"
+            "centro-izq"
+            "centro-medio"
+            "centro-der"
+            "abajo";
+    }
+
+    .email-input {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .newsletter {
+        flex-direction: column;
+
+        i {
+            margin-bottom: 10px;
+        }
+    }
+
+    .arriba-izq,
+    .centro-der ul {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .btnEmail {
+        width: 100%;
+    }
+
+    .centro-der {
+        img {
+            max-width: 68px;
+        }
+    }
+
+    .abajo {
+        text-align: center;
+        padding: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-container {
+        gap: 10px;
+    }
+
+    .arriba-izq,
+    .arriba-der,
+    .centro-izq,
+    .centro-medio,
+    .centro-der {
+        padding: 10px;
+    }
+
+    .fa-whatsapp {
+        font-size: 2rem;
+        bottom: 15px;
+        right: 15px;
+    }
+}
+
+/**********Fin del index**********/
+
+
+/***********Inicio de la página coleccion hombre**********/
+.bannerMan {
+    width: 100%;
+    height: 60vh;
+    overflow: hidden;
+    background-image: url(../assets/img/banner_hombre.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: bottom;
+    display: flex;
+    justify-content: center;
+    align-items: end;
+    padding-bottom: 32px;
+    position: relative;
+}
+
+/*espacio entre la seccion productos y el footer*/
+.margenAbajo {
+    margin-bottom: 80px;
+}
