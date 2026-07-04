@@ -30,7 +30,7 @@ async function obtenerOCrearCarrito() {
 // Carga todos los productos desde la API y los renderiza en el HTML.
 async function cargarProductos() {
     const contenedor = document.getElementById("contenedor-productos");
-    if (!contenedor) return; // Si no estamos en index.html, no hace nada.
+    if (!contenedor) return;
 
     try {
         const response = await fetch(`${API_URL}/productos`);
@@ -57,7 +57,7 @@ function renderizarProductos(productos) {
                 <p class="product-categoria">${producto.categoria ? producto.categoria.nombre : ""}</p>
                 <p>$${producto.precio.toLocaleString("es-AR")}</p>
                 <p class="product-stock">Stock: ${producto.stock}</p>
-                <button class="product-btn" onclick="agregarAlCarrito(${producto.id})">
+                <button class="product-btn" onclick="agregarAlCarrito(${producto.id}, '${producto.modelo}')">
                     Agregar al Carrito
                 </button>
             </div>
@@ -67,7 +67,7 @@ function renderizarProductos(productos) {
 }
 
 // Agrega un producto al carrito llamando a la API.
-async function agregarAlCarrito(productoId) {
+async function agregarAlCarrito(productoId, modelo) {
     try {
         const carritoId = await obtenerOCrearCarrito();
 
@@ -76,11 +76,25 @@ async function agregarAlCarrito(productoId) {
         });
 
         if (response.ok) {
-            alert("¡Producto agregado al carrito!");
+            // Toastify para confirmar que se agregó el producto
+            Toastify({
+                text: `✔ ${modelo} agregado al carrito`,
+                duration: 3000,
+                gravity: "top",
+                position: "right",
+                backgroundColor: "#39f2ae",
+                stopOnFocus: true
+            }).showToast();
             actualizarContadorCarrito();
         } else {
             const error = await response.json();
-            alert(error.error);
+            // SweetAlert para mostrar el error (ej: stock insuficiente)
+            Swal.fire({
+                title: "Error",
+                text: error.error,
+                icon: "error",
+                confirmButtonColor: "#39f2ae"
+            });
         }
     } catch (error) {
         console.error("Error al agregar al carrito:", error);
@@ -110,7 +124,7 @@ async function actualizarContadorCarrito() {
 // Carga y muestra los items del carrito.
 async function cargarCarrito() {
     const contenedor = document.getElementById("lista-carrito");
-    if (!contenedor) return; // Si no estamos en carrito.html, no hace nada.
+    if (!contenedor) return;
 
     const carritoId = localStorage.getItem("carritoId");
 
@@ -132,8 +146,12 @@ async function cargarCarrito() {
 function renderizarCarrito(carrito) {
     const contenedor = document.getElementById("lista-carrito");
 
+    // Limpiamos el total siempre, antes de cualquier otra cosa.
+    const totalDiv = document.getElementById("total-carrito");
+    if (totalDiv) totalDiv.textContent = "";
+
     if (carrito.items.length === 0) {
-        contenedor.innerHTML = "<p>Tu carrito está vacío.</p>";
+        contenedor.innerHTML = "<p class='carrito-vacio'>Tu carrito está vacío.</p>";
         return;
     }
 
@@ -153,24 +171,35 @@ function renderizarCarrito(carrito) {
                 <p>Cantidad: ${item.cantidad}</p>
                 <p>Subtotal: $${(item.producto.precio * item.cantidad).toLocaleString("es-AR")}</p>
             </div>
-            <button class="btn-eliminar" onclick="eliminarDelCarrito(${item.producto.id})">
+            <button class="btn-eliminar" onclick="eliminarDelCarrito(${item.producto.id}, '${item.producto.modelo}')">
                 <i class="fa-solid fa-trash"></i>
             </button>
         `;
         contenedor.appendChild(fila);
     });
 
-    // Mostramos el total
-    const totalDiv = document.getElementById("total-carrito");
     if (totalDiv) {
         totalDiv.textContent = `Total: $${total.toLocaleString("es-AR")}`;
     }
 }
 
-// Elimina un producto específico del carrito.
-async function eliminarDelCarrito(productoId) {
+// Elimina un producto específico del carrito con confirmación.
+async function eliminarDelCarrito(productoId, modelo) {
     const carritoId = localStorage.getItem("carritoId");
     if (!carritoId) return;
+
+    const confirmacion = await Swal.fire({
+        title: "¿Eliminar producto?",
+        text: `¿Querés quitar ${modelo} del carrito?`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#39f2ae",
+        cancelButtonColor: "#e74c3c",
+        confirmButtonText: "Sí, eliminar",
+        cancelButtonText: "Cancelar"
+    });
+
+    if (!confirmacion.isConfirmed) return;
 
     try {
         const response = await fetch(`${API_URL}/carritos/${carritoId}/productos/${productoId}`, {
@@ -178,10 +207,18 @@ async function eliminarDelCarrito(productoId) {
         });
 
         if (response.ok) {
-            cargarCarrito(); // Recarga el carrito actualizado
+            Toastify({
+                text: `${modelo} eliminado del carrito`,
+                duration: 3000,
+                gravity: "top",
+                position: "right",
+                backgroundColor: "#e74c3c",
+                stopOnFocus: true
+            }).showToast();
+            cargarCarrito();
         } else {
             const error = await response.json();
-            alert(error.error);
+            Swal.fire("Error", error.error, "error");
         }
     } catch (error) {
         console.error("Error al eliminar producto:", error);
@@ -193,16 +230,37 @@ async function vaciarCarrito() {
     const carritoId = localStorage.getItem("carritoId");
     if (!carritoId) return;
 
+    const confirmacion = await Swal.fire({
+        title: "¿Vaciar carrito?",
+        text: "Se van a eliminar todos los productos del carrito",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#39f2ae",
+        cancelButtonColor: "#e74c3c",
+        confirmButtonText: "Sí, vaciar",
+        cancelButtonText: "Cancelar"
+    });
+
+    if (!confirmacion.isConfirmed) return;
+
     try {
         const response = await fetch(`${API_URL}/carritos/${carritoId}/vaciar`, {
             method: "DELETE"
         });
 
         if (response.ok) {
-            cargarCarrito(); // Recarga el carrito vacío
+            Toastify({
+                text: "El carrito fue vaciado",
+                duration: 3000,
+                gravity: "top",
+                position: "right",
+                backgroundColor: "#e74c3c",
+                stopOnFocus: true
+            }).showToast();
+            cargarCarrito();
         } else {
             const error = await response.json();
-            alert(error.error);
+            Swal.fire("Error", error.error, "error");
         }
     } catch (error) {
         console.error("Error al vaciar el carrito:", error);
@@ -211,14 +269,12 @@ async function vaciarCarrito() {
 
 // ---------------------------------------------------------------
 // INICIALIZACIÓN
-// Cuando carga cualquier página, ejecutamos las funciones necesarias.
 // ---------------------------------------------------------------
 document.addEventListener("DOMContentLoaded", () => {
-    cargarProductos();           // Solo actúa si existe #contenedor-productos
-    cargarCarrito();             // Solo actúa si existe #lista-carrito
-    actualizarContadorCarrito(); // Actualiza el contador en el navbar
+    cargarProductos();
+    cargarCarrito();
+    actualizarContadorCarrito();
 
-    // Conecta el botón vaciar carrito si existe en la página.
     const btnVaciar = document.getElementById("vaciar-carrito");
     if (btnVaciar) {
         btnVaciar.addEventListener("click", vaciarCarrito);
