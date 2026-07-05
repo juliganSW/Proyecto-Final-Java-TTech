@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Goodstone Watch Store | Administración</title>
+    <!--favicon-->
+    <link rel="shortcut icon" href="assets/img/time_clock_icon_.ico" type="image/x-icon">
+    <!--Font Awesome-->
+    <script src="https://kit.fontawesome.com/45d21db9a0.js" crossorigin="anonymous"></script>
+    <!--Estilos-->
+    <link rel="stylesheet" href="css/styles.css">
+    <!--Toastify-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <!--SweetAlert2-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body id="top">
+    <header class="header">
+      <div class="infoBar">
+            <p>Bienvenido!</p>
+           
+          </div>
+        <nav class="navbar">
+            <div class="logo-container">
+                <figure>
+                    <a href="index.html"><img src="assets/img/logo_goodstone_store.png" alt="Logo-Empresa" class="logo"></a>
+                </figure>
+            </div>
+            <div class="nav-izquierda">
+                <ul>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="index.html">Colecciones</a></li>
+                   
+                </ul>
+            </div>
+            <div class="nav-derecha">
+                <ul>
+                    <li><a href="index.html"><i class="fa-solid fa-arrow-left"></i> Volver al sitio</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="products margenAbajo">
+            <h1 class="headline">Administración de Productos</h1>
+          
+
+            <!-- Contenedor donde se renderizan las cards de productos -->
+            <div class="all-products" id="contenedor-admin">
+                <!-- Los productos se cargan dinámicamente desde la API -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Botón flotante para agregar producto nuevo -->
+    <button class="btn-flotante" id="btn-agregar-producto" title="Agregar producto">
+        <i class="fa-solid fa-plus"></i>
+    </button>
+
+    <footer>
+        <div class="footer-container">
+            <div class="abajo">
+                <div>
+                    <a href="#top"><i class="fa-solid fa-circle-up back_to_top"></i></a>
+                </div>
+                <div class="abajo-content">
+                    <p>© 2024 Goodstone watch store. Todos los derechos reservados.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/admin.js"></script>
+</body>
+</html>
