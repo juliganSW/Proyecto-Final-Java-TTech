@@ -19,30 +19,29 @@ public class ProductoService {
         this.categoriaService = categoriaService;
     }
 
-    // Devuelve todos los productos guardados en la base.
+    // Devuelve todos los productos guardados en la BBDD
     public List<Producto> obtenerTodos() {
         return productoRepository.findAll();
     }
 
-    // Busca un producto por id. Si no existe, lanza la excepcion personalizada.
+    // Busca un producto por id. Si no existe, tira la excepción
     public Producto obtenerPorId(Integer id) {
         return productoRepository.findById(id)
                 .orElseThrow(() -> new ProductoNotFoundException(id));
     }
 
-    // Busca productos cuyo modelo contenga el texto recibido (para el buscador del front).
+    // Busca productos cuyo modelo contenga el texto recibido
     public List<Producto> buscarPorModelo(String modelo) {
         return productoRepository.findByModeloContainingIgnoreCase(modelo);
     }
 
-    // Devuelve todos los productos de una categoria especifica (para filtrar por Deportivos/Luxury).
+    // Devuelve todos los productos de una categoria 
     public List<Producto> obtenerPorCategoria(Integer categoriaId) {
-        // Verificamos que la categoria exista antes de buscar sus productos.
         categoriaService.obtenerPorId(categoriaId);
         return productoRepository.findByCategoriaId(categoriaId);
     }
 
-    // Guarda un producto nuevo. Verifica que la categoria asignada exista en la base.
+    // Guarda un producto nuevo
     public Producto guardar(Producto producto) {
         if (producto.getCategoria() != null && producto.getCategoria().getId() != null) {
             Categoria categoria = categoriaService.obtenerPorId(producto.getCategoria().getId());
@@ -51,7 +50,7 @@ public class ProductoService {
         return productoRepository.save(producto);
     }
 
-    // Actualiza un producto existente. Verifica primero que exista.
+    // Actualiza un producto existente
     public Producto actualizar(Integer id, Producto productoActualizado) {
         Producto productoExistente = obtenerPorId(id);
         productoExistente.setModelo(productoActualizado.getModelo());
@@ -59,7 +58,7 @@ public class ProductoService {
         productoExistente.setStock(productoActualizado.getStock());
         productoExistente.setImagenUrl(productoActualizado.getImagenUrl());
 
-        // Si viene una categoria nueva, verificamos que exista antes de asignarla.
+        // Si viene una categoria nueva, verifica que exista antes de asignarla.
         if (productoActualizado.getCategoria() != null && productoActualizado.getCategoria().getId() != null) {
             Categoria categoria = categoriaService.obtenerPorId(productoActualizado.getCategoria().getId());
             productoExistente.setCategoria(categoria);
@@ -68,7 +67,7 @@ public class ProductoService {
         return productoRepository.save(productoExistente);
     }
 
-    // Elimina un producto por id. Verifica primero que exista.
+    // Elimina un producto por id. Primero verifica que exista
     public void eliminar(Integer id) {
         obtenerPorId(id);
         productoRepository.deleteById(id);

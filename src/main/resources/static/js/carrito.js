@@ -1,13 +1,10 @@
-// URL base de la API de Spring Boot
+// URL de la API de Spring Boot
 const API_URL = "http://localhost:8080";
 
-// ---------------------------------------------------------------
-// MANEJO DEL CARRITO
-// Guardamos el id del carrito en localStorage para mantenerlo
-// entre páginas (index.html y carrito.html)
-// ---------------------------------------------------------------
+// Guarda el id del carrito en localStorage para mantenerlo
+// entre páginas 
 
-// Obtiene el id del carrito del localStorage, o crea uno nuevo si no existe.
+// Obtiene el id del carrito del localStorage, o crea uno nuevo si no existe
 async function obtenerOCrearCarrito() {
     let carritoId = localStorage.getItem("carritoId");
 
@@ -23,11 +20,7 @@ async function obtenerOCrearCarrito() {
     return carritoId;
 }
 
-// ---------------------------------------------------------------
-// CATÁLOGO DE PRODUCTOS (index.html)
-// ---------------------------------------------------------------
-
-// Carga todos los productos desde la API y los renderiza en el HTML.
+// Carga todos los productos desde la API y los muestra en el HTML
 async function cargarProductos() {
     const contenedor = document.getElementById("contenedor-productos");
     if (!contenedor) return;
@@ -41,7 +34,7 @@ async function cargarProductos() {
     }
 }
 
-// Genera el HTML de cada producto y lo inserta en el contenedor.
+// Genera el HTML de cada producto y lo inserta en el contenedor
 function renderizarProductos(productos) {
     const contenedor = document.getElementById("contenedor-productos");
     contenedor.innerHTML = "";
@@ -66,7 +59,7 @@ function renderizarProductos(productos) {
     });
 }
 
-// Agrega un producto al carrito llamando a la API.
+// Agrega un producto al carrito llamando a la API
 async function agregarAlCarrito(productoId, modelo) {
     try {
         const carritoId = await obtenerOCrearCarrito();
@@ -88,7 +81,7 @@ async function agregarAlCarrito(productoId, modelo) {
             actualizarContadorCarrito();
         } else {
             const error = await response.json();
-            // SweetAlert para mostrar el error (ej: stock insuficiente)
+            // SweetAlert para mostrar el error 
             Swal.fire({
                 title: "Error",
                 text: error.error,
@@ -101,7 +94,7 @@ async function agregarAlCarrito(productoId, modelo) {
     }
 }
 
-// Actualiza el contador de items en el ícono del carrito del navbar.
+// Actualiza el contador de items
 async function actualizarContadorCarrito() {
     const carritoId = localStorage.getItem("carritoId");
     const contador = document.getElementById("contador-carrito");
@@ -116,10 +109,6 @@ async function actualizarContadorCarrito() {
         console.error("Error al actualizar contador:", error);
     }
 }
-
-// ---------------------------------------------------------------
-// PÁGINA DEL CARRITO (carrito.html)
-// ---------------------------------------------------------------
 
 // Carga y muestra los items del carrito.
 async function cargarCarrito() {
@@ -142,7 +131,7 @@ async function cargarCarrito() {
     }
 }
 
-// Genera el HTML del carrito con sus items.
+// Genera el HTML del carrito con sus items
 function renderizarCarrito(carrito) {
     const contenedor = document.getElementById("lista-carrito");
 
@@ -183,7 +172,7 @@ function renderizarCarrito(carrito) {
     }
 }
 
-// Elimina un producto específico del carrito con confirmación.
+// Elimina un producto del carrito 
 async function eliminarDelCarrito(productoId, modelo) {
     const carritoId = localStorage.getItem("carritoId");
     if (!carritoId) return;
@@ -225,7 +214,7 @@ async function eliminarDelCarrito(productoId, modelo) {
     }
 }
 
-// Vacía todos los items del carrito.
+// Vacía todos los items del carrito
 async function vaciarCarrito() {
     const carritoId = localStorage.getItem("carritoId");
     if (!carritoId) return;
@@ -267,9 +256,7 @@ async function vaciarCarrito() {
     }
 }
 
-// ---------------------------------------------------------------
-// INICIALIZACIÓN
-// ---------------------------------------------------------------
+// Inicialización
 document.addEventListener("DOMContentLoaded", () => {
     cargarProductos();
     cargarCarrito();

@@ -9,11 +9,9 @@ import java.util.List;
 @Repository
 public interface ProductoRepository extends JpaRepository<Producto, Integer> {
 
-    // Busca productos cuyo modelo contenga el texto recibido, sin importar mayusculas/minusculas.
-    // Util para implementar un buscador en el front (ej: buscar "canyon").
+    // Busca productos cuyo modelo contenga el texto recibido
     List<Producto> findByModeloContainingIgnoreCase(String modelo);
 
-    // Busca todos los productos que pertenezcan a una categoria especifica por su id.
-    // Util para filtrar el catalogo por categoria (ej: mostrar solo "Deportivos").
+    // Busca todos los productos que pertenezcan a una categoria especifica por su id
     List<Producto> findByCategoriaId(Integer categoriaId);
 }

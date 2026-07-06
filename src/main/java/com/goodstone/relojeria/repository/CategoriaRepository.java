@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CategoriaRepository extends JpaRepository<Categoria, Integer> {
 
-    // Busca categorias cuyo nombre contenga el texto recibido, sin importar mayusculas/minusculas.
-    // Spring Data JPA genera la consulta SQL automaticamente a partir del nombre del metodo.
+    // Busca categorias cuyo nombre contenga el texto recibido 
+    // Spring Data JPA genera la consulta SQL a partir del nombre del metodo.
     boolean existsByNombre(String nombre);
 }

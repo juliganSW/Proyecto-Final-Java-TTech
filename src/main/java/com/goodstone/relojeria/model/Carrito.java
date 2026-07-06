@@ -20,9 +20,7 @@ public class Carrito {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    // Un carrito puede tener muchos productos (a traves de la tabla intermedia CarritoProducto).
-    // cascade = ALL -> si guardamos o borramos el carrito, se propaga a sus CarritoProducto.
-    // orphanRemoval = true -> si sacamos un CarritoProducto de la lista, se borra de la base.
+    // Un carrito puede tener muchos productos
     @JsonManagedReference
     @OneToMany(mappedBy = "carrito", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CarritoProducto> items = new ArrayList<>();

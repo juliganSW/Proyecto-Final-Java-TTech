@@ -1,10 +1,8 @@
-// URL base de la API de Spring Boot
+// URL de la API de Spring Boot
 const API_URL = "http://localhost:8080";
 
-// ---------------------------------------------------------------
-// CARGAR Y RENDERIZAR PRODUCTOS
-// ---------------------------------------------------------------
 
+// Cargar y renderizar productos
 async function cargarProductosAdmin() {
     const contenedor = document.getElementById("contenedor-admin");
     if (!contenedor) return;
@@ -26,7 +24,7 @@ function renderizarProductosAdmin(productos) {
         const card = document.createElement("div");
         card.classList.add("product");
         card.innerHTML = `
-            <img src="${producto.imagenUrl}" alt="${producto.modelo}">
+            <img src="${producto.imagenUrl}" alt="imagen de reloj">
             <div class="product-info">
                 <h2 class="product-title">${producto.modelo}</h2>
                 <p class="product-categoria">${producto.categoria ? producto.categoria.nombre : ""}</p>
@@ -46,12 +44,9 @@ function renderizarProductosAdmin(productos) {
     });
 }
 
-// ---------------------------------------------------------------
-// AGREGAR PRODUCTO
-// ---------------------------------------------------------------
-
+// Agregar producto
 async function abrirFormularioAgregar() {
-    // Traemos las categorias para mostrarlas en el select
+    // Trae las categorias para mostrarlas en el select
     const categorias = await obtenerCategorias();
     const opcionesCategorias = categorias.map(c =>
         `<option value="${c.id}">${c.nombre}</option>`
@@ -117,19 +112,16 @@ async function abrirFormularioAgregar() {
     }
 }
 
-// ---------------------------------------------------------------
-// EDITAR PRODUCTO
-// ---------------------------------------------------------------
-
+// Editar productos
 async function editarProducto(id) {
-    // Traemos los datos actuales del producto y las categorias
+    // Trae los datos actuales del producto y las categorias
     const [productoRes, categorias] = await Promise.all([
-        fetch(`${API_URL}/productos/${id}`).then(r => r.json()),
+        fetch(`${API_URL}/productos/${id}`).then(response => response.json()),
         obtenerCategorias()
     ]);
 
     const opcionesCategorias = categorias.map(c =>
-        `<option value="${c.id}" ${c.id === productoRes.categoria?.id ? "selected" : ""}>${c.nombre}</option>`
+        `<option value="${categ.id}" ${categ.id === productoRes.categoria?.id ? "selected" : ""}>${c.nombre}</option>`
     ).join("");
 
     const { value: formValues } = await Swal.fire({
@@ -176,7 +168,7 @@ async function editarProducto(id) {
 
         if (response.ok) {
             Toastify({
-                text: `✔ ${formValues.modelo} actualizado correctamente`,
+                text: `✔ ${formValues.modelo} Producto actualizado`,
                 duration: 3000,
                 gravity: "top",
                 position: "right",
@@ -192,14 +184,11 @@ async function editarProducto(id) {
     }
 }
 
-// ---------------------------------------------------------------
-// ELIMINAR PRODUCTO
-// ---------------------------------------------------------------
-
+// Eliminar Producto
 async function eliminarProducto(id, modelo) {
     const confirmacion = await Swal.fire({
         title: "¿Eliminar producto?",
-        text: `¿Estás seguro que querés eliminar "${modelo}"? Esta acción no se puede deshacer.`,
+        text: `¿Estás seguro que querés eliminar "${modelo}"? `,
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#e74c3c",
@@ -217,7 +206,7 @@ async function eliminarProducto(id, modelo) {
 
         if (response.ok) {
             Toastify({
-                text: `${modelo} eliminado correctamente`,
+                text: `${modelo} Producto eliminado`,
                 duration: 3000,
                 gravity: "top",
                 position: "right",
@@ -233,10 +222,7 @@ async function eliminarProducto(id, modelo) {
     }
 }
 
-// ---------------------------------------------------------------
-// HELPER: obtener categorias para los selects
-// ---------------------------------------------------------------
-
+// Obtener categorias para los selects
 async function obtenerCategorias() {
     try {
         const response = await fetch(`${API_URL}/categorias`);
@@ -247,10 +233,7 @@ async function obtenerCategorias() {
     }
 }
 
-// ---------------------------------------------------------------
-// INICIALIZACIÓN
-// ---------------------------------------------------------------
-
+// Inicialización 
 document.addEventListener("DOMContentLoaded", () => {
     cargarProductosAdmin();
 

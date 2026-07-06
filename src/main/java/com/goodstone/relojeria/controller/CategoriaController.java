@@ -19,32 +19,32 @@ public class CategoriaController {
         this.categoriaService = categoriaService;
     }
 
-    // GET /categorias -> devuelve todas las categorias.
+    // Devuelve todas las categorias.
     @GetMapping
     public ResponseEntity<List<Categoria>> obtenerTodas() {
         return ResponseEntity.ok(categoriaService.obtenerTodas());
     }
 
-    // GET /categorias/{id} -> devuelve una categoria por id.
+    // Devuelve una categoria por id.
     @GetMapping("/{id}")
     public ResponseEntity<Categoria> obtenerPorId(@PathVariable Integer id) {
         return ResponseEntity.ok(categoriaService.obtenerPorId(id));
     }
 
-    // POST /categorias -> crea una categoria nueva.
+    // Crea una categoria
     @PostMapping
     public ResponseEntity<Categoria> guardar(@Valid @RequestBody Categoria categoria) {
         return ResponseEntity.status(HttpStatus.CREATED).body(categoriaService.guardar(categoria));
     }
 
-    // PUT /categorias/{id} -> actualiza una categoria existente.
+    // Actualiza una categoria existente.
     @PutMapping("/{id}")
     public ResponseEntity<Categoria> actualizar(@PathVariable Integer id,
                                                 @Valid @RequestBody Categoria categoria) {
         return ResponseEntity.ok(categoriaService.actualizar(id, categoria));
     }
 
-    // DELETE /categorias/{id} -> elimina una categoria por id.
+    // Elimina una categoria por id.
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Integer id) {
         categoriaService.eliminar(id);

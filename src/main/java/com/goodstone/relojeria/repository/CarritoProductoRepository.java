@@ -9,8 +9,6 @@ import java.util.Optional;
 @Repository
 public interface CarritoProductoRepository extends JpaRepository<CarritoProducto, Integer> {
 
-    // Busca si ya existe un item con ese producto dentro de ese carrito especifico.
-    // Util para cuando el usuario agrega un producto que ya estaba en el carrito:
-    // en vez de crear un item nuevo, sumamos la cantidad al existente.
+    // Busca si ya existe un producto dentro de ese carrito en particular
     Optional<CarritoProducto> findByCarritoIdAndProductoId(Integer carritoId, Integer productoId);
 }
